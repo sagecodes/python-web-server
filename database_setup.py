@@ -1,27 +1,58 @@
-# import sys module for functions to manipulate python runtime environment
+import os
 import sys
-
-# Import classes from alchemy. Use with mapper code
-from sqlalchemy import
-Column, ForeignKey, Integer, String
-
-# Import declarative base use for configuration and class code
-from sqlalchemy.ext.declarative import
-declarative_base
-
-# import relationship in order to create foreign key relationship
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-
-# import create engine class to be used at the end of the file
 from sqlalchemy import create_engine
 
-# Make instance of declarative base class. Name it Base for short
 Base = declarative_base()
-#### insert at end of file ######
 
-# Create instance of creat eengine class and point to database used.
+class Restaurant(Base):
+
+  __tablename__ = 'restaurant'
+
+  name = Column(String(80), nullable = False)
+  id = Column(Integer, primary_key = True)
+
+#### Menu CLASS ####
+class MenuItem(Base):
+
+  __tablename__ = 'menu_item'
+
+  name = Column(
+    string(80), nullable = False)
+    id = Column(Integer, primary_key = True)
+    course = Column(String(250))
+    description = Column(String(250))
+    price = Column(String(8))
+    restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
+    restaurant = relationship(Restaurant)
+
+
 engine = create_engine(
-	'sqlite:///restaurantmenu.db')
+  'sqlite:///restaurantmenu.db')
 
-# goes into database and adds classes we create.
 Base.metadata.create_all(engine)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
